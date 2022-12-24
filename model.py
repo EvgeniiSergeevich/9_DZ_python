@@ -19,11 +19,10 @@ def candy_word(take):
         candy_word = lcw[2]
     return candy_word
 
-def user_logic():
+def user_logic(take):
     global i, candies
 
     while candies > 0:
-        take = input('Сколько конфет забираете? ')
         try:
             take = int(take)
         except:
@@ -38,7 +37,7 @@ def user_logic():
         elif take > 0 and take < 29:
             candies -= take
             i += 1
-            return  f"ВЫ забрали {take} {candy_word(take)}. Осталось {candies} шт!"
+            return  f"ВЫ забрали {take} {candy_word(take)}."
    
 
 
