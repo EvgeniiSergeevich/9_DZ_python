@@ -3,6 +3,15 @@ import model
 
 bot = telebot.TeleBot("5888397915:AAFE6Y3eScQGDbeU4WLlT8z31wnSpkjFik8")
 
+storage = dict()
+def init_storage(user_id):
+    storage[user_id] = dict(candies = None)
+
+def set_data_storage(user_id, key, value):
+    storage[user_id][key] = value
+
+def get_data_storage(user_id):
+    return storage[user_id]
 
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
@@ -15,6 +24,9 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['start'])
 def start_game(message):
+    init_storage(message.chat.id)
+    candies = 117
+    set_data_storage(message.chat.id, 'candies', candies)
     bot.send_message(message.chat.id, 'На столе 117 конфет. Сколько конфет забираете?')
     
     bot.register_next_step_handler(message, process_digit_step)
