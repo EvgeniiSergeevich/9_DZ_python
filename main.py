@@ -3,16 +3,6 @@ import model
 
 bot = telebot.TeleBot("5888397915:AAFE6Y3eScQGDbeU4WLlT8z31wnSpkjFik8")
 
-storage = dict()
-def init_storage(user_id):
-    storage[user_id] = dict(candies = None)
-
-def set_data_storage(user_id, key, value):
-    storage[user_id][key] = value
-
-def get_data_storage(user_id):
-    return storage[user_id]
-
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
 	bot.reply_to(message, "На столе лежит 117 конфет.\n" + 
@@ -24,11 +14,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['start'])
 def start_game(message):
-    init_storage(message.chat.id)
-    candies = 117
-    set_data_storage(message.chat.id, 'candies', candies)
-    bot.send_message(message.chat.id, 'На столе 117 конфет. Сколько конфет забираете?')
-    
+    bot.send_message(message.chat.id, 'На столе 117 конфет. Сколько конфет забираете?')   
     bot.register_next_step_handler(message, process_digit_step)
 
 
@@ -41,28 +27,17 @@ def process_digit_step(message):
     bot.send_message(message.chat.id, model.user_logic(message.text))
     bot.send_message(message.chat.id, model.won())
     if model.candies == 0:
-        exit()
+        model.i = 1
+        model.candies = 117 
+        return
     bot.send_message(message.chat.id, model.bot_logic())
     bot.send_message(message.chat.id, model.won())
     if model.candies == 0:
-        exit()
+        model.i = 1
+        model.candies = 117 
+        return
     bot.register_next_step_handler(message, process_digit_step)
 
-@bot.message_handler(content_types = 'text')
-def game(message):
-    
-    bot.register_next_step_handler(message, process_digit_step)
         
 
 bot.infinity_polling()
-
-# candies = model.candies
-# while candies > 0:
-#     print(model.user_logic(input(' ')))
-#     print(model.won())
-#     if model.candies == 0:
-#         exit()
-#     print(model.bot_logic())
-#     print(model.won())
-#     if model.candies == 0:
-#         exit()

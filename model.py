@@ -76,13 +76,9 @@ def bot_logic():
 def won():
     global i, candies
     if candies == 0:
-        if i % 2 == 0:  
-            i = 1
-            candies = 117                                        
+        if i % 2 == 0:                                         
             return 'Вы победили!!! УРА!'            
-        else:
-            i = 1
-            candies = 117             
+        else:           
             return 'Бот победил!!! Не расстраивайся!'
         
     else:
